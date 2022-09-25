@@ -1,13 +1,22 @@
 /* @jsx createElement */
 import { createElement, render } from "./react";
 
+function Title(props) {
+  console.log(props);
+  return <h1 style={props.style}>{props.children}</h1>;
+}
+
+function Item(props) {
+  return <li style={`color:${props.color}`}>{props.children}</li>;
+}
+
 const vDOM2 = (
   <p>
-    <h1 style="color:red">리스트</h1>
+    <Title style="color:red">리스트</Title>
     <ul>
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
+      <Item color={"blue"}>1</Item>
+      <Item>2</Item>
+      <Item>3</Item>
     </ul>
   </p>
 );

@@ -49,6 +49,16 @@ export const createElement = (tag, props, ...children) => {
   return { tag, props, children };
 };
 
-export const render = (virtualDOM, container) => {
-  container.appendChild(createDOM(virtualDOM));
-};
+export const render = (() => {
+  let prevVirtualDOM = null;
+
+  return (virtualDOM, container) => {
+    if (prevVirtualDOM === null) {
+      prevVirtualDOM = virtualDOM;
+    }
+
+    // Diff
+
+    container.appendChild(createDOM(virtualDOM));
+  };
+})();

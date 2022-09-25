@@ -1,3 +1,9 @@
+export class Component {
+  constructor(props) {
+    this.props = props;
+  }
+}
+
 export const createDOM = (node) => {
   if (typeof node === "string") {
     return document.createTextNode(node);
@@ -18,15 +24,24 @@ export const createDOM = (node) => {
   return element;
 };
 
+const makeProps = (props, children) => {
+  return {
+    ...props,
+    children: children.length === 1 ? children[0] : children,
+  };
+};
+
 export const createElement = (tag, props, ...children) => {
   props = props || {};
 
   if (typeof tag === "function") {
+    if (tag.prototype instanceof Component) {
+      const instance = new tag(makeProps(props, children));
+
+      return instance.render();
+    }
     if (children.length > 0) {
-      return tag({
-        ...props,
-        children: children.length === 1 ? children[0] : children,
-      });
+      return tag(makeProps(props, children));
     }
     return tag(props);
   }
